@@ -1,0 +1,48 @@
+services:
+  neo4j:
+    image: neo4j:5.18.0-community
+    container_name: fraud-detection-neo4j
+    ports:
+      - "7474:7474"  # Neo4j Browser UI
+      - "7687:7687"  # Bolt Protocol
+    environment:
+      - NEO4J_AUTH=neo4j/password123
+      - NEO4J_PLUGINS=["apoc"]
+    volumes:
+      - neo4j_data:/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fraud-detection-api
+    ports:
+      - "8000:8000"
+    environment:
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USERNAME=neo4j
+      - NEO4J_PASSWORD=password123
+      - NEO4J_DATABASE=neo4j
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    depends_on:
+      - neo4j
+
+  frontend:
+    image: python:3.12-slim
+    container_name: fraud-detection-frontend
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_API_URL=http://backend:8000
+    command: >
+      sh -c "pip install -r frontend/requirements.txt &&
+             streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0"
+    depends_on:
+      - backend
+
+volumes:
+  neo4j_data:
