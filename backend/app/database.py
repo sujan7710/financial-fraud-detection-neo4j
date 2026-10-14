@@ -45,7 +45,7 @@ class Neo4jConnection:
         try:
             driver = self.get_driver()
             with driver.session(database=settings.NEO4J_DATABASE) as session:
-                result = session.run("CALL dbms.components() YIELD name, versions, edition RETURN name, versions[0] AS version, edition")
+                result = session.run("CALL dbms.components() YIELD name, versions, edition RETURN name, versions[0] AS version, edition LIMIT 1")
                 record = result.single()
                 if record:
                     db_info = {

@@ -51,7 +51,7 @@ class FraudDetectionService:
                 seen_cycle_fingerprints.add(unique_nodes)
 
                 total_cycle_amount = round(sum(amounts), 2)
-                cycle_path_str = " ➔ ".join(acc_ids)
+                cycle_path_str = " -> ".join(acc_ids)
                 pattern_id = f"PAT-CIRC-{abs(hash(unique_nodes)) % 1000000:06d}"
 
                 pattern = FlaggedPattern(

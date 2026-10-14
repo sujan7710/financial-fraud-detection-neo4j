@@ -12,7 +12,8 @@ from app.database import db
 from app.config import settings
 
 def main():
-    print(f"Connecting to Neo4j at {settings.NEO4J_URI}...")
+    masked_uri = settings.NEO4J_URI.split("@")[-1] if "@" in settings.NEO4J_URI else settings.NEO4J_URI
+    print(f"Connecting to Neo4j at {masked_uri}...")
     driver = db.connect()
     if not driver:
         print("ERROR: Could not establish connection to Neo4j.")

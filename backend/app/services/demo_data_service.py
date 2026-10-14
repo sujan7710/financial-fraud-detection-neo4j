@@ -131,7 +131,7 @@ class DemoDataService:
             "accounts_seeded": accounts_count,
             "transactions_seeded": tx_count,
             "patterns_available": [
-                "Circular Fund Routing (4-node cycle: ACC-1001 ➔ 1002 ➔ 1003 ➔ 1004 ➔ 1001)",
+                "Circular Fund Routing (4-node cycle: ACC-1001 -> 1002 -> 1003 -> 1004 -> 1001)",
                 "Structuring / Fan-In Smurfing (ACC-2000 hub collecting $38,600 from 4 mules)",
                 "Structuring / Fan-Out Dispersal (ACC-4000 distributing to 3 personal accounts)",
                 "High-Value Outliers ($850,000 SWIFT and $250,000 WIRE transfers)",
