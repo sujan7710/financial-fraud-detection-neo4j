@@ -12,7 +12,7 @@ def get_backend_url() -> str:
             return st.secrets["BACKEND_API_URL"].rstrip("/")
     except Exception:
         pass
-    return os.getenv("BACKEND_API_URL", "http://localhost:8000").rstrip("/")
+    return os.getenv("BACKEND_API_URL", "https://financial-fraud-detection-api-z01p.onrender.com").rstrip("/")
 
 class FraudAPIClient:
     def __init__(self, base_url: Optional[str] = None):
