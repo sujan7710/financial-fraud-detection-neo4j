@@ -1,4 +1,12 @@
+import sys
 import os
+from pathlib import Path
+
+# Ensure frontend directory is in sys.path for Streamlit Cloud runtime
+FRONTEND_DIR = Path(__file__).resolve().parent
+if str(FRONTEND_DIR) not in sys.path:
+    sys.path.insert(0, str(FRONTEND_DIR))
+
 import streamlit as st
 from utils.api_client import FraudAPIClient, get_backend_url
 from components.metrics import render_kpi_metrics
