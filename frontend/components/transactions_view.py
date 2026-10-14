@@ -13,7 +13,7 @@ def render_transactions_view(api_client):
         with c1:
             flagged_only = st.checkbox("🚩 Show Flagged Transactions Only", value=False)
         with c2:
-            min_amt = st.number_input("Minimum Amount ($)", min_value=0.0, value=0.0, step=1000.0)
+            min_amt = st.number_input("Minimum Amount (₹)", min_value=0.0, value=0.0, step=1000.0)
         with c3:
             channel_filter = st.selectbox("Channel", ["All", "WIRE", "ACH", "ONLINE", "SWIFT", "ATM"])
 
@@ -34,7 +34,11 @@ def render_transactions_view(api_client):
 
             if items:
                 df = pd.DataFrame(items)
-                display_cols = ["transaction_id", "from_account_id", "to_account_id", "amount", "channel", "flagged", "flag_reason", "timestamp"]
+                from utils.formatting import format_inr, sanitize_currency_display
+                df["amount_inr"] = df["amount"].apply(lambda x: format_inr(x))
+                if "flag_reason" in df.columns:
+                    df["flag_reason"] = df["flag_reason"].apply(lambda x: sanitize_currency_display(x) if x else None)
+                display_cols = ["transaction_id", "from_account_id", "to_account_id", "amount_inr", "channel", "flagged", "flag_reason", "timestamp"]
                 avail_cols = [c for c in display_cols if c in df.columns]
 
                 st.dataframe(
@@ -44,7 +48,7 @@ def render_transactions_view(api_client):
                         "transaction_id": st.column_config.TextColumn("Tx ID"),
                         "from_account_id": st.column_config.TextColumn("Origin Account"),
                         "to_account_id": st.column_config.TextColumn("Destination Account"),
-                        "amount": st.column_config.NumberColumn("Amount (USD)", format="$%.2f"),
+                        "amount_inr": st.column_config.TextColumn("Amount (INR)"),
                         "channel": st.column_config.TextColumn("Channel"),
                         "flagged": st.column_config.CheckboxColumn("Suspicious Flag"),
                         "flag_reason": st.column_config.TextColumn("Detection Rule"),
@@ -65,7 +69,7 @@ def render_transactions_view(api_client):
                 from_id = st.text_input("Source Account ID *", placeholder="e.g. ACC-1001")
                 to_id = st.text_input("Destination Account ID *", placeholder="e.g. ACC-1002")
             with c2:
-                amount = st.number_input("Transfer Amount ($) *", min_value=1.0, value=15000.0, step=1000.0)
+                amount = st.number_input("Transfer Amount (₹) *", min_value=1.0, value=15000.0, step=1000.0)
                 channel = st.selectbox("Payment Channel", ["WIRE", "ACH", "ONLINE", "SWIFT", "ATM"])
 
             submitted = st.form_submit_button("💳 Execute Graph Transfer")
@@ -84,7 +88,8 @@ def render_transactions_view(api_client):
                         }
                         res = api_client.create_transaction(payload)
                         if res.get("flagged"):
-                            st.warning(f"⚠️ Transfer `{res['transaction_id']}` recorded and **FLAGGED**: {res.get('flag_reason')}")
+                            reason_clean = sanitize_currency_display(res.get("flag_reason"))
+                            st.warning(f"⚠️ Transfer `{res['transaction_id']}` recorded and **FLAGGED**: {reason_clean}")
                         else:
                             st.success(f"Transfer `{res['transaction_id']}` recorded successfully!")
                         st.rerun()

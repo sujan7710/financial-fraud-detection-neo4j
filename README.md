@@ -155,7 +155,7 @@ RETURN acc_ids, tx_ids, amounts, length(path) AS cycle_length
 - **Recommended Action:** Place debit hold on participating nodes; file Suspicious Activity Report (SAR) citing circular layering topology.
 
 ### 2. Fan-In Structuring / Smurfing (Aggregation)
-- **Concept:** Multiple money mules deposit funds structured just below the mandatory Currency Transaction Reporting (CTR) threshold (e.g., $7,000–$9,999) into a single aggregator hub.
+- **Concept:** Multiple money mules deposit funds structured just below the prototype structuring threshold (e.g., ₹7,000–₹9,999 in synthetic records) into a single aggregator hub.
 - **Cypher Traversal:**
 ```cypher
 MATCH (sender:Account)-[r:SENT]->(hub:Account)
@@ -189,7 +189,7 @@ ORDER BY total_amount DESC
 - **Severity:** `HIGH`
 
 ### 4. High-Value Outlier Detection
-- **Concept:** Flags individual transactions that exceed statutory or configurable thresholds (e.g., $\ge \$10,000$).
+- **Concept:** Flags individual transactions that exceed configurable outlier thresholds (e.g., $\ge \text{₹}10,000$).
 - **Cypher Traversal:**
 ```cypher
 MATCH (source:Account)-[r:SENT]->(target:Account)
@@ -358,6 +358,6 @@ During your faculty project presentation:
 1. **Show Live Health Check**: Open the *Architecture & Health* tab to demonstrate that the frontend is communicating with FastAPI and Neo4j over HTTPS/Bolt.
 2. **Demonstrate Idempotent Seeding**: Click `⚡ Seed Synthetic Fraud Scenarios` in the sidebar and show that node counts do not duplicate upon repeated clicks due to `MERGE` semantics.
 3. **Walk Through Graph Visualization**: Navigate to *Graph Network Explorer*. Hover over red nodes (shell companies and mule hubs) and pink highlighted circular cycles.
-4. **Explain Pattern 1 (Circular Cycle)**: In *Suspicious Pattern Detection*, expand `PAT-CIRC-001`. Point out the path `ACC-1001 ➔ 1002 ➔ 1003 ➔ 1004 ➔ 1001` and explain how variable-length Cypher paths (`*3..5`) solve this in milliseconds.
-5. **Explain Pattern 2 (Structuring / Smurfing)**: Show `PAT-SMURF-IN-ACC-2000`, explaining how 4 mules sent transfers ranging from $9,400 to $9,800 to bypass the $10,000 CTR rule.
+4. **Explain Pattern 1 (Circular Cycle)**: In *Suspicious Pattern Detection*, expand `PAT-CIRC-001`. Point out the path `ACC-1001 -> 1002 -> 1003 -> 1004 -> 1001` and explain how variable-length Cypher paths (`*3..5`) solve this in milliseconds.
+5. **Explain Pattern 2 (Structuring / Smurfing)**: Show `PAT-SMURF-IN-ACC-2000`, explaining how 4 mules sent transfers ranging from ₹9,400 to ₹9,800 to bypass the prototype ₹10,000 reporting threshold.
 6. **Show Cypher Queries**: Open the *Cypher Algorithms Showcase* tab to present the actual Cypher code and contrast its time complexity with relational SQL.

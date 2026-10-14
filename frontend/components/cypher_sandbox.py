@@ -35,7 +35,7 @@ RETURN acc_ids, tx_ids, amounts, length(path) AS cycle_length
     with tab2:
         st.markdown("#### Fan-In Structuring (Smurfing Aggregation)")
         st.markdown(
-            "Detects mule collector hubs receiving multiple deposits sized just below the $10,000 regulatory reporting threshold (e.g. $7,000 - $9,999.99)."
+            "Detects mule collector hubs receiving multiple deposits sized just below the prototype structuring reporting threshold (e.g. ₹7,000 - ₹9,999.99 in synthetic demo records)."
         )
         st.code("""
 MATCH (sender:Account)-[r:SENT]->(hub:Account)
@@ -79,7 +79,7 @@ ORDER BY total_amount DESC
     with tab4:
         st.markdown("#### High-Value Outlier Transactions")
         st.markdown(
-            "Filters relationships with amounts exceeding the configurable threshold (e.g. $10,000 or $50,000)."
+            "Filters relationships with amounts exceeding the configurable threshold (e.g. ₹10,000 or ₹50,000 in prototype rules)."
         )
         st.code("""
 MATCH (source:Account)-[r:SENT]->(target:Account)

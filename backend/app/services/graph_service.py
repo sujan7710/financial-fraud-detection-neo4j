@@ -123,7 +123,7 @@ class GraphService:
                 "flagged": rec["flagged"],
                 "flag_reason": rec["flag_reason"],
                 "timestamp": rec["timestamp"],
-                "title": f"Tx {rec['tx_id']}: ${rec['amount']:,.2f} via {rec['channel']}" + (f"\nFlagged: {rec['flag_reason']}" if rec['flagged'] else "")
+                "title": f"Tx {rec['tx_id']}: ₹{rec['amount']:,.2f} via {rec['channel']}" + (f"\nFlagged: {rec['flag_reason']}" if rec['flagged'] else "")
             })
 
         # Also include any isolated accounts if no edges or if requested

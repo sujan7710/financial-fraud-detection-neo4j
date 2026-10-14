@@ -1,5 +1,6 @@
 import streamlit as st
 from typing import Any, Dict
+from utils.formatting import format_inr
 
 def render_kpi_metrics(health: Dict[str, Any], report: Dict[str, Any], accounts_summary: Dict[str, Any], transactions_summary: Dict[str, Any]):
     """Render top-level executive KPI metrics with custom styled cards."""
@@ -53,7 +54,7 @@ def render_kpi_metrics(health: Dict[str, Any], report: Dict[str, Any], accounts_
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); padding: 16px; border-radius: 10px; border-left: 4px solid #8B5CF6; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
             <div style="color: #94A3B8; font-size: 0.82rem; font-weight: 600; text-transform: uppercase;">Flagged Volume</div>
-            <div style="color: #F8FAFC; font-size: 1.8rem; font-weight: 700; margin-top: 4px;">${flagged_amount:,.0f}</div>
+            <div style="color: #F8FAFC; font-size: 1.8rem; font-weight: 700; margin-top: 4px;">{format_inr(flagged_amount, decimals=0)}</div>
             <div style="color: #A78BFA; font-size: 0.78rem; margin-top: 4px;">Exposed Capital</div>
         </div>
         """, unsafe_allow_html=True)

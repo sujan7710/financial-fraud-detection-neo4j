@@ -133,10 +133,10 @@ class FraudDetectionService:
                     pattern_type=SuspiciousPatternType.LARGE_TRANSACTION_OUTLIER,
                     severity=severity,
                     rule_name="High-Value Transaction Outlier",
-                    summary=f"Outlier transfer of ${amount:,.2f} from {from_id} ({from_name}) to {to_id} ({to_name}).",
+                    summary=f"Outlier transfer of ₹{amount:,.2f} from {from_id} ({from_name}) to {to_id} ({to_name}).",
                     explainability=(
-                        f"Transaction {tx_id} of ${amount:,.2f} via {channel} significantly exceeds "
-                        f"the regulatory threshold (${thresh:,.2f}). "
+                        f"Transaction {tx_id} of ₹{amount:,.2f} via {channel} significantly exceeds "
+                        f"the prototype threshold (₹{thresh:,.2f}). "
                         f"Transfer from '{from_name}' to '{to_name}' represents a concentrated capital movement "
                         f"requiring independent verification of commercial purpose and source of wealth."
                     ),
@@ -217,11 +217,11 @@ class FraudDetectionService:
                     pattern_type=SuspiciousPatternType.SMURFING_FAN_IN,
                     severity=PatternSeverity.HIGH,
                     rule_name="Structuring / Smurfing (Fan-In Aggregation)",
-                    summary=f"Hub account {hub_id} ({hub_name}) received {sender_count} structured sub-threshold transfers totaling ${total_amount:,.2f}.",
+                    summary=f"Hub account {hub_id} ({hub_name}) received {sender_count} structured sub-threshold transfers totaling ₹{total_amount:,.2f}.",
                     explainability=(
                         f"Account {hub_id} collected funds from {sender_count} distinct senders ({', '.join(sender_ids[:4])}{'...' if len(sender_ids) > 4 else ''}) "
-                        f"where individual transfer sizes (${sub_min:,.2f} - ${sub_max:,.2f}) were systematically maintained "
-                        f"just below mandatory Currency Transaction Report (CTR) filing thresholds. "
+                        f"where individual transfer sizes (₹{sub_min:,.2f} - ₹{sub_max:,.2f}) were systematically maintained "
+                        f"just below prototype structuring reporting thresholds. "
                         f"This fan-in topology strongly resembles money mule aggregation networks."
                     ),
                     recommended_action=(
@@ -282,10 +282,10 @@ class FraudDetectionService:
                     pattern_type=SuspiciousPatternType.SMURFING_FAN_OUT,
                     severity=PatternSeverity.HIGH,
                     rule_name="Structuring / Smurfing (Fan-Out Dispersal)",
-                    summary=f"Source account {source_id} ({source_name}) dispersed ${total_amount:,.2f} across {target_count} target accounts.",
+                    summary=f"Source account {source_id} ({source_name}) dispersed ₹{total_amount:,.2f} across {target_count} target accounts.",
                     explainability=(
-                        f"Account {source_id} systematically dispersed ${total_amount:,.2f} into {target_count} recipient accounts "
-                        f"in amounts narrowly structured beneath ${sub_max:,.2f}. "
+                        f"Account {source_id} systematically dispersed ₹{total_amount:,.2f} into {target_count} recipient accounts "
+                        f"in amounts narrowly structured beneath ₹{sub_max:,.2f}. "
                         f"Rapid fan-out of funds to disparate accounts is consistent with capital dispersion and laundering mules."
                     ),
                     recommended_action=(

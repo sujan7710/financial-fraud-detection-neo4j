@@ -34,7 +34,9 @@ def render_accounts_view(api_client):
 
             if items:
                 df = pd.DataFrame(items)
-                display_cols = ["account_id", "customer_name", "account_type", "balance", "risk_score", "status", "outgoing_count", "incoming_count"]
+                from utils.formatting import format_inr
+                df["balance_inr"] = df["balance"].apply(lambda x: format_inr(x))
+                display_cols = ["account_id", "customer_name", "account_type", "balance_inr", "risk_score", "status", "outgoing_count", "incoming_count"]
                 avail_cols = [c for c in display_cols if c in df.columns]
                 st.dataframe(
                     df[avail_cols],
@@ -43,7 +45,7 @@ def render_accounts_view(api_client):
                         "account_id": st.column_config.TextColumn("Account ID"),
                         "customer_name": st.column_config.TextColumn("Customer Name"),
                         "account_type": st.column_config.TextColumn("Type"),
-                        "balance": st.column_config.NumberColumn("Balance (USD)", format="$%.2f"),
+                        "balance_inr": st.column_config.TextColumn("Balance (INR)"),
                         "risk_score": st.column_config.ProgressColumn("Risk Score", min_value=0, max_value=100, format="%.1f"),
                         "status": st.column_config.TextColumn("Status"),
                         "outgoing_count": st.column_config.NumberColumn("Out Tx"),
@@ -65,7 +67,7 @@ def render_accounts_view(api_client):
                 new_name = st.text_input("Customer / Entity Name *", placeholder="e.g. Global Trade Partners LLC")
                 new_type = st.selectbox("Account Classification", ["Personal", "Business", "Shell Company", "Mule Account", "Offshore Entity", "Intermediary"])
             with c2:
-                new_bal = st.number_input("Opening Balance ($)", min_value=0.0, value=10000.0, step=500.0)
+                new_bal = st.number_input("Opening Balance (₹)", min_value=0.0, value=10000.0, step=500.0)
                 new_risk = st.slider("Baseline Risk Score", min_value=0.0, max_value=100.0, value=25.0, step=1.0)
                 new_status = st.selectbox("Initial Status", ["ACTIVE", "UNDER_INVESTIGATION", "FROZEN"])
 

@@ -3,6 +3,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from pyvis.network import Network
 from typing import Any, Dict, List, Optional
+from utils.formatting import format_inr, sanitize_currency_display
 
 def render_graph_view(graph_data: Dict[str, Any], selected_pattern: Optional[Dict[str, Any]] = None):
     """
@@ -95,14 +96,15 @@ def render_graph_view(graph_data: Dict[str, Any], selected_pattern: Optional[Dic
             e_color = "#475569"
             e_width = 1.5
 
+        clean_reason = sanitize_currency_display(reason) if reason else ""
         tooltip = (
             f"<b>Tx ID:</b> {tx_id}<br>"
-            f"<b>Amount:</b> ${amount:,.2f}<br>"
+            f"<b>Amount:</b> {format_inr(amount)}<br>"
             f"<b>Channel:</b> {channel}<br>"
-            f"<b>Flagged:</b> {'YES (' + str(reason) + ')' if flagged else 'NO'}"
+            f"<b>Flagged:</b> {'YES (' + str(clean_reason) + ')' if flagged else 'NO'}"
         )
 
-        label = f"${amount:,.0f}" if amount >= 10000.0 else ""
+        label = format_inr(amount, decimals=0) if amount >= 10000.0 else ""
 
         net.add_edge(
             from_id,

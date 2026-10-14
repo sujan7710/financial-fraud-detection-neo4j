@@ -69,11 +69,12 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Detection Thresholds")
     large_thresh = st.number_input(
-        "High-Value Outlier Threshold ($)",
+        "High-Value Outlier Threshold (₹)",
         min_value=1000.0,
         max_value=10000000.0,
         value=10000.0,
-        step=5000.0
+        step=5000.0,
+        help="Configurable prototype detection threshold in Indian Rupees (₹)"
     )
     cycle_min = st.slider("Minimum Cycle Hop Length", 2, 6, 3)
     cycle_max = st.slider("Maximum Cycle Hop Length", 3, 8, 5)

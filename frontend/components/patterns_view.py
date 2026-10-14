@@ -1,5 +1,6 @@
 import streamlit as st
 from typing import Any, Dict, List, Optional
+from utils.formatting import format_inr, sanitize_currency_display
 
 def render_patterns_view(report: Dict[str, Any], api_client) -> Optional[Dict[str, Any]]:
     """
@@ -58,11 +59,12 @@ def render_patterns_view(report: Dict[str, Any], api_client) -> Optional[Dict[st
             "LOW": "#3B82F6"
         }
         badge_color = color_map.get(severity, "#64748B")
+        tot_amount = format_inr(p.get('total_amount', 0.0))
 
-        with st.expander(f"[{severity}] {p.get('rule_name')} — ${p.get('total_amount', 0.0):,.2f} ({p.get('pattern_id')})", expanded=(idx < 2)):
+        with st.expander(f"[{severity}] {p.get('rule_name')} — {tot_amount} ({p.get('pattern_id')})", expanded=(idx < 2)):
             col_left, col_right = st.columns([3, 1])
             with col_left:
-                st.markdown(f"**Summary:** {p.get('summary')}")
+                st.markdown(f"**Summary:** {sanitize_currency_display(p.get('summary'))}")
             with col_right:
                 if st.button("🎯 Focus in Graph", key=f"focus_{p.get('pattern_id')}"):
                     focused_pattern = p
@@ -73,7 +75,7 @@ def render_patterns_view(report: Dict[str, Any], api_client) -> Optional[Dict[st
             <div style="background: #1E293B; padding: 14px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid {badge_color};">
                 <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">🧠 Forensic Explainability (Reason for Flagging)</div>
                 <div style="color: #F8FAFC; font-size: 0.95rem; margin-top: 6px; line-height: 1.5;">
-                    {p.get('explainability')}
+                    {sanitize_currency_display(p.get('explainability'))}
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -82,7 +84,7 @@ def render_patterns_view(report: Dict[str, Any], api_client) -> Optional[Dict[st
             <div style="background: #1E293B; padding: 14px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #10B981;">
                 <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">📋 Investigator Recommended Protocol</div>
                 <div style="color: #F8FAFC; font-size: 0.95rem; margin-top: 6px; line-height: 1.5;">
-                    {p.get('recommended_action')}
+                    {sanitize_currency_display(p.get('recommended_action'))}
                 </div>
             </div>
             """, unsafe_allow_html=True)

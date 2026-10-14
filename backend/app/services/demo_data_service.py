@@ -53,8 +53,8 @@ DEMO_TRANSACTIONS = [
     {"tx_id": "TX-SMURF-204", "from_id": "ACC-2004", "to_id": "ACC-2000", "amount": 9750.0, "channel": "ONLINE", "timestamp": "2026-10-11T13:05:00Z", "flagged": True, "reason": "Structuring: Sub-threshold deposit to collector hub"},
 
     # High-Value Outliers
-    {"tx_id": "TX-OUTL-301", "from_id": "ACC-3001", "to_id": "ACC-3002", "amount": 850000.0, "channel": "SWIFT", "timestamp": "2026-10-12T10:00:00Z", "flagged": True, "reason": "Large outlier: $850,000 exceeds reporting threshold"},
-    {"tx_id": "TX-OUTL-302", "from_id": "ACC-3003", "to_id": "ACC-3004", "amount": 250000.0, "channel": "WIRE", "timestamp": "2026-10-12T14:30:00Z", "flagged": True, "reason": "Large outlier: $250,000 exceeds reporting threshold"},
+    {"tx_id": "TX-OUTL-301", "from_id": "ACC-3001", "to_id": "ACC-3002", "amount": 850000.0, "channel": "SWIFT", "timestamp": "2026-10-12T10:00:00Z", "flagged": True, "reason": "Large outlier: ₹8,50,000 exceeds reporting threshold"},
+    {"tx_id": "TX-OUTL-302", "from_id": "ACC-3003", "to_id": "ACC-3004", "amount": 250000.0, "channel": "WIRE", "timestamp": "2026-10-12T14:30:00Z", "flagged": True, "reason": "Large outlier: ₹2,50,000 exceeds reporting threshold"},
 
     # Fan-Out Dispersal
     {"tx_id": "TX-FOUT-401", "from_id": "ACC-4000", "to_id": "ACC-4001", "amount": 9500.0, "channel": "ACH", "timestamp": "2026-10-13T09:00:00Z", "flagged": True, "reason": "Structuring: Sub-threshold dispersal from source"},
@@ -132,9 +132,9 @@ class DemoDataService:
             "transactions_seeded": tx_count,
             "patterns_available": [
                 "Circular Fund Routing (4-node cycle: ACC-1001 -> 1002 -> 1003 -> 1004 -> 1001)",
-                "Structuring / Fan-In Smurfing (ACC-2000 hub collecting $38,600 from 4 mules)",
+                "Structuring / Fan-In Smurfing (ACC-2000 hub collecting ₹38,600 from 4 mules)",
                 "Structuring / Fan-Out Dispersal (ACC-4000 distributing to 3 personal accounts)",
-                "High-Value Outliers ($850,000 SWIFT and $250,000 WIRE transfers)",
+                "High-Value Outliers (₹8,50,000 SWIFT and ₹2,50,000 WIRE transfers)",
                 "Benign baseline commerce (Retail coffee, utilities, packaging)"
             ]
         }

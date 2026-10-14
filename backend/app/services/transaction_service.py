@@ -22,7 +22,7 @@ class TransactionService:
 
         if tx_in.amount >= settings.LARGE_TRANSACTION_THRESHOLD:
             flagged = True
-            flag_reason = f"High-Value Outlier: Transaction amount ${tx_in.amount:,.2f} meets or exceeds reporting threshold (${settings.LARGE_TRANSACTION_THRESHOLD:,.2f})"
+            flag_reason = f"High-Value Outlier: Transaction amount ₹{tx_in.amount:,.2f} meets or exceeds reporting threshold (₹{settings.LARGE_TRANSACTION_THRESHOLD:,.2f})"
             risk_score = min(85.0, 50.0 + (tx_in.amount / settings.LARGE_TRANSACTION_THRESHOLD) * 10.0)
 
         query = """
